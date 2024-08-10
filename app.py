@@ -1,6 +1,9 @@
 import streamlit as st
 import pandas as pd 
-from ydata_profiling import ProfileReport
+try:
+    import ydata_profiling as pdp
+except ImportError:
+    import pandas_profiling as pdp
 from streamlit_pandas_profiling import st_profile_report
 import os
 from pycaret.classification import setup, compare_models, pull, save_model
@@ -54,7 +57,7 @@ if choice == "Profiling":
     st.title("Exploratory Data Analysis")
     
     if st.session_state.data_loaded and st.session_state.profile_report is None:
-        st.session_state.profile_report = ProfileReport(df)
+        st.session_state.profile_report = pdp.ProfileReport(df)
     
     if st.session_state.data_loaded and st.session_state.profile_report is not None:
         st_profile_report(st.session_state.profile_report)
